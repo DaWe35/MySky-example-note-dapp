@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+
+<title>Note & SkyID</title>
+
+<div class="show-if-initialized show-if-logged-in logout-bar" style="display:none">
+	<a href="javascript: skyid.sessionDestroy()">Logout</a>
+</div>
+
+<div class="hide-if-initialized">
+	<h2 class="big-margin">Loading...</h2>
+</div>
+
+<div class="show-if-initialized hide-if-logged-in" style="display:none">
+	<h2>Make a note while using <a href="https://sky-id.hns.siasky.net">SkyID</a> for authentication</h2>
+
+	<!-- Button for login -->
+	<button onclick="skyid.sessionStart()" class="skyid-button button-blow big-margin">
+		<img src="SkyID_Logo_128_white.png" alt="SkyID" class="skyid-logo">
+		Sign in with SkyID
+	</button>
+</div>
+
+<div class="show-if-initialized show-if-logged-in small-margin" style="display:none">
+	<textarea id="note" class="p-3 rounded"> Loading... </textarea><br>
+	<button id="save_note" class="skyid-button small-margin-top" onclick="saveNote()">Save unencrypted note</button>
+</div>
+
+
+<footer>Read more on <a href="https://github.com/DaWe35/SkyID-example-note-dapp" target="_blank">GitHub</a> -
+	forked from <a href="https://skyportal.xyz/_BF4CHsFIichxjdgAFhU-tEKqsoPDxC9OMsWbMkyMbz4KQ/" target="_blank">Note to myself</a>
+</footer>
+
+
+<!-- Initialize and setup SkyID -->
+
+<script src="https://sky-id.hns.siasky.net/skyid.js"></script>
+ 
+
+<!-- for testing -->
+<!-- <script src="http://idtest.local/skyid.js"></script> -->
+
+<script>
+	// detect if app is opened on localhost for development
+	if (window.location.hostname == 'idtest.local' || window.location.hostname == 'localhost' || window.location.protocol == 'file:') {
+		var devMode = true
+	} else {
+		var devMode = false
+	}
+
+	var opts = { 'devMode': devMode  }
+	var skyid = new SkyID('Example skapp', skyidEventCallback, opts)
+
+	// Optional: listen for callbacks
+	function skyidEventCallback(message) {
+		switch (message) {
+			case 'login_fail':
+				console.log('Login failed')
+				break;
+			case 'login_success':
+				console.log('Login succeed!')
+				fetchNote()
+				break;
+			case 'destroy':
+				console.log('Logout succeed!')
+				break;
+			default:
+				console.log(message)
+				break;
+		}
+	}
+
+	if (skyid.seed != '') { // if user logged in
+		fetchNote()
+	}
+
+	// fetch the note
+	function fetchNote() {
+		// fetch file
+		skyid.getFile('note', function(response, revision) {
+			var note = document.getElementById('note')
+			if (response == '') { // file not found
+				note.value = ''
+			} else { // success
+				var respObs = JSON.parse(response)
+				note.value = respObs.data
+			}
+		})
+	}
+
+	function saveNote() {
+		// convert note to json
+		var note = document.getElementById('note').value
+		var json = JSON.stringify({ data: note })
+
+		// upload to registry with SkyID key
+		skyid.setFile('note', json, function(response) {
+			if (response != true) {
+				alert('Sorry, but upload failed :(')
+			}
+		})
+	}
+</script>

@@ -66,15 +66,20 @@ async function getJSONExample() {
 	try {
 	  // Get discoverable JSON data from the given path.
 	  const { data, skylink } = await mySky.getJSON("app.hns/path/file.json");
+	  return data
+
 	} catch (error) {
 	  console.log(error)
+	  return null
 	}
+return null
   }
 
-async function setJSONExample() {
+async function setJSONExample(message) {
 	try {
+		console.log(message)
 	  // Set discoverable JSON data at the given path. The return type is the same as getJSON.
-	  const { data, skylink } = await mySky.setJSON("app.hns/path/file.json", { message: "hello" });
+	  const { data, skylink } = await mySky.setJSON("app.hns/path/file.json", { message: ''+message+'' });
 	} catch (error) {
 	  console.log(error)
 	}
@@ -92,6 +97,11 @@ async function mySkyExample() {
 
 
 (async () => {
+	$("#save_note").click(function() {
+		console.log("ez meg lett nyomva")
+	  let message=$("#note").val()
+	  setJSONExample(message)
+	});
 	mySky = await client.loadMySky(hostApp, {
 		debug: true,
 		dev: true,
@@ -110,7 +120,12 @@ async function mySkyExample() {
 
 	if (isLoggedIn) {
 		userId = await mySky.userID()
-		loadDacsExample()
+		await loadDacsExample()
+		//await setJSONExample()
+		let Message=await getJSONExample()
+		if(Message!=null){
+			$("#note").val(Message.message);
+		}
 		$(".hide-if-logged-in").hide()
 		$(".show-if-logged-in").show()
 		

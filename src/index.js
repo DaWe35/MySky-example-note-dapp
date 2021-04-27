@@ -97,15 +97,6 @@ async function mySkyExample() {
 		dev: true,
 	})
 	let proba = await mySkyExample()
-
-	/*
-	let proba1 =await mySky.loadDacs(feedDAC).then(function(result){
-		//document.getElementsByClassName("hide-if-initialized").style.display ="visible"
-		$(".hide-if-initialized").hide()
-		$(".show-if-initialized").show()
-		})
-	*/
-
 	let proba1 = await loadDacsExample().then(function(result){
 		//document.getElementsByClassName("hide-if-initialized").style.display ="visible"
 		$(".hide-if-initialized").hide()
@@ -120,6 +111,8 @@ async function mySkyExample() {
 	if (isLoggedIn) {
 		userId = await mySky.userID()
 		loadDacsExample()
+		$(".hide-if-logged-in").hide()
+		$(".show-if-logged-in").show()
 		
 	}
 })();

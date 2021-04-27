@@ -90,10 +90,7 @@ async function mySkyExample() {
   }
 
 
-  $(".skyid-button").click(function(){
-	console.log("isLoggedIn")
-	requestLoginAccessExample()
-  });
+
 (async () => {
 	mySky = await client.loadMySky(hostApp, {
 		debug: true,
@@ -113,14 +110,17 @@ async function mySkyExample() {
 		//document.getElementsByClassName("hide-if-initialized").style.display ="visible"
 		$(".hide-if-initialized").hide()
 		$(".show-if-initialized").show()
+		
 		})
 
-
+	await requestLoginAccessExample()
 	isLoggedIn = await mySky.checkLogin()
 	console.log(isLoggedIn)
+
 	if (isLoggedIn) {
 		userId = await mySky.userID()
 		loadDacsExample()
+		
 	}
 })();
 

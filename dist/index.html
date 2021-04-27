@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="utf-8">
 
 <title>Note & SkyID</title>
@@ -8,7 +9,7 @@
 	<a href="javascript: skyid.sessionDestroy()">Logout</a>
 </div>
 
-<div class="hide-if-initialized">
+<div class="hide-if-initialized" >
 	<h2 class="big-margin">Loading...</h2>
 </div>
 
@@ -16,13 +17,13 @@
 	<h2>Make a note while using <a href="https://sky-id.hns.siasky.net">SkyID</a> for authentication</h2>
 
 	<!-- Button for login -->
-	<button onclick="skyid.sessionStart()" class="skyid-button button-blow big-margin">
+	<button  class="skyid-button button-blow big-margin">
 		<img src="SkyID_Logo_128_white.png" alt="SkyID" class="skyid-logo">
 		Sign in with SkyID
 	</button>
 </div>
 
-<div class="show-if-initialized show-if-logged-in small-margin" style="display:none">
+<div class="show-if-logedin show-if-logged-in small-margin" style="display:none">
 	<textarea id="note" class="p-3 rounded"> Loading... </textarea><br>
 	<button id="save_note" class="skyid-button small-margin-top" onclick="saveNote()">Save unencrypted note</button>
 </div>

@@ -1,5 +1,9 @@
+
 import { SkynetClient } from "skynet-js"
 import { ContentRecordDAC } from "@skynetlabs/content-record-library";
+
+
+
 
 let isLoggedIn = false
 let mySky
@@ -7,6 +11,7 @@ let userId
 
 const hostApp = "sky-note.hns"
 const client = new SkynetClient("https://siasky.net/")
+
 
 
 async function loadDacsExample() {
@@ -24,16 +29,18 @@ async function loadDacsExample() {
 
 async function requestLoginAccessExample() {
 	try {
-		isLoggedIn = await mySky.checkLogin();
-	
-		// Add button action for login.
-		if (!isLoggedIn) {
-			document
-			.getObjectByID("login-button")
-			.addEventListener("click", mySky.requestLoginAccess());
-		}
+		mySky= await client.loadMySky(hostApp);
+  
+	  const loggedIn = await mySky.checkLogin();
+  
+	  // Add button action for login.
+	  if (!loggedIn) {
+		document
+		  .getObjectByID("login-button")
+		  .addEventListener("click", mySky.requestLoginAccess());
+	  }
 	} catch (error) {
-	  	console.log(error)
+	  console.log(error)
 	}
 }
 
@@ -73,22 +80,47 @@ async function setJSONExample() {
 	}
 }
 
+async function mySkyExample() {
+	try {
+	  // Initialize MySky.
+	  mySky = await client.loadMySky(hostApp);
+	} catch (error) {
+	  console.log(error)
+	}
+  }
 
 
+  $(".skyid-button").click(function(){
+	console.log("isLoggedIn")
+	requestLoginAccessExample()
+  });
 (async () => {
 	mySky = await client.loadMySky(hostApp, {
 		debug: true,
 		dev: true,
 	})
+	let proba = await mySkyExample()
 
-	//await mySky.loadDacs(feedDAC)
-	let asd = await loadDacsExample()
-	console.log(asd)
+	/*
+	let proba1 =await mySky.loadDacs(feedDAC).then(function(result){
+		//document.getElementsByClassName("hide-if-initialized").style.display ="visible"
+		$(".hide-if-initialized").hide()
+		$(".show-if-initialized").show()
+		})
+	*/
+
+	let proba1 = await loadDacsExample().then(function(result){
+		//document.getElementsByClassName("hide-if-initialized").style.display ="visible"
+		$(".hide-if-initialized").hide()
+		$(".show-if-initialized").show()
+		})
+
 
 	isLoggedIn = await mySky.checkLogin()
-
+	console.log(isLoggedIn)
 	if (isLoggedIn) {
 		userId = await mySky.userID()
 		loadDacsExample()
 	}
 })();
+

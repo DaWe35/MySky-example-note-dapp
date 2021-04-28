@@ -8,7 +8,7 @@ module.exports = {
 	},
 	optimization: {
 		// minimize: true,
-		minimize: false,
+		minimize: true,
 		minimizer: [
 			new TerserPlugin({
 				extractComments: false,

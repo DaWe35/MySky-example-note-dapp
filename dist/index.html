@@ -1,34 +1,38 @@
 <link rel="stylesheet" href="bootstrap.min.css">
 <link rel="stylesheet" href="style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="utf-8">
 
 <title>Note & SkyID</title>
 
-<div class="show-if-initialized show-if-logged-in logout-bar" style="display:none">
-	<a href="javascript: skyid.sessionDestroy()">Logout</a>
-</div>
+<div id="logout" class="show-if-logged-in logout-bar" style="display:none; cursor: pointer;">Logout</div>
 
-<div class="hide-if-initialized">
+<div class="hide-if-initialized" >
 	<h2 class="big-margin">Loading...</h2>
 </div>
 
 <div class="show-if-initialized hide-if-logged-in" style="display:none">
-	<h2>Make a note while using <a href="https://sky-id.hns.siasky.net">SkyID</a> for authentication</h2>
+	<h2>Make a note while using <a href="https://mysky.hns.siasky.net">MySky</a> for authentication</h2>
 
 	<!-- Button for login -->
-	<button onclick="skyid.sessionStart()" class="skyid-button button-blow big-margin">
+	<button id="login-button" class="skyid-button button-blow big-margin">
 		<img src="SkyID_Logo_128_white.png" alt="SkyID" class="skyid-logo">
-		Sign in with SkyID
+		Sign in with MySky
 	</button>
 </div>
 
-<div class="show-if-initialized show-if-logged-in small-margin" style="display:none">
+<div class="show-if-logedin show-if-logged-in small-margin" style="display:none">
+	<div class="no-send">
 	<textarea id="note" class="p-3 rounded"> Loading... </textarea><br>
-	<button id="save_note" class="skyid-button small-margin-top" onclick="saveNote()">Save unencrypted note</button>
+	<button id="save_note" class="skyid-button small-margin-top">Save unencrypted note</button>
+	</div>
+	<div class="sending spinner-border" role="status" style="display: none;">
+		<span class="sr-only">Loading...</span>
+	</div>
 </div>
 
 
-<footer>Read more on <a href="https://github.com/DaWe35/SkyID-example-note-dapp" target="_blank">GitHub</a> -
+<footer>Read more on <a href="https://github.com/DaWe35/DAC-example-note-dapp" target="_blank">GitHub</a> -
 	forked from <a href="https://skyportal.xyz/_BF4CHsFIichxjdgAFhU-tEKqsoPDxC9OMsWbMkyMbz4KQ/" target="_blank">Note to myself</a>
 </footer>
 

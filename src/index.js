@@ -31,12 +31,16 @@ async function requestLoginAccessExample() {
 	try {
 		mySky= await client.loadMySky(hostApp);
   
-	  const loggedIn = await mySky.checkLogin();
+		isLoggedIn = await mySky.checkLogin();
   
 	  // Add button action for login.
-	  if (!loggedIn) {
+	  if (!isLoggedIn) {
 		document.getElementById("login-button").addEventListener("click", function() {
-			mySky.requestLoginAccess()
+			const status =  mySky.requestLoginAccess()
+			if(status){
+				$(".hide-if-logged-in").hide()
+				$(".show-if-logged-in").show()
+			}
 		  });
 	  }
 	} catch (error) {
@@ -98,9 +102,15 @@ async function mySkyExample() {
 
 (async () => {
 	$("#save_note").click(function() {
+		
+		$(".no-send").hide()
+		$(".sending").show()
 		console.log("ez meg lett nyomva")
 	  let message=$("#note").val()
-	  setJSONExample(message)
+	    setJSONExample(message).then(function(){
+			$(".no-send").show()
+			$(".sending").hide()
+		})
 	});
 	mySky = await client.loadMySky(hostApp, {
 		debug: true,

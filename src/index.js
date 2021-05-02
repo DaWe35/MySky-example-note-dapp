@@ -6,7 +6,7 @@ let isLoggedIn = false
 let mySky
 let userId
 
-const hostApp = "23672318746.hns"
+const hostApp = "7sc.hns"
 const client = new SkynetClient("https://siasky.net/")
 
 async function loginButton() {
